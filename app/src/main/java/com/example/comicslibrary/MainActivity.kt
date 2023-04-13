@@ -1,14 +1,15 @@
 package com.example.comicslibrary
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,9 +36,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val navContoroller = rememberNavController()
-
-                    CharactersScaffold(navContoroller = navContoroller)
+                    val navController = rememberNavController()
+                    CharactersScaffold(
+                        navController
+                        = navController
+                    )
 
                 }
             }
@@ -51,7 +54,7 @@ fun CharactersScaffold(navController: NavHostController) {
 
     Scaffold(
         scaffoldState = scaffoldState,
-        bottomBar = {}
+        bottomBar = { CharactersBottomNav(navController = navController) }
     ) { paddingValue ->
         NavHost(
             navController = navController,
