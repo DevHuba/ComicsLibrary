@@ -22,7 +22,7 @@ object ApiService {
             var request: Request = chain.request()
             val url: HttpUrl = request.url.newBuilder()
                 .addQueryParameter("ts", timeStamp)
-                .addQueryParameter("apiKey", apiKey)
+                .addQueryParameter("apikey", apiKey)
                 .addQueryParameter("hash", hash)
                 .build()
 
@@ -44,4 +44,6 @@ object ApiService {
             .build()
 
     }
+
+    val api: MarvelApi = getRetrofit().create(MarvelApi::class.java)
 }
