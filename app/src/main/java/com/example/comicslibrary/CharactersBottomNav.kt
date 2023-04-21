@@ -19,6 +19,7 @@ fun CharactersBottomNav(navController: NavHostController) {
         val iconLibrary = painterResource(id = R.drawable.ic_library)
         val iconCollection = painterResource(id = R.drawable.ic_collection)
 
+        //Nav items
         BottomNavigationItem(
             selected = currentDestination?.route == Destination.Library.route,
             onClick = {
