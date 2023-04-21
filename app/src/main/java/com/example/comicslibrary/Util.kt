@@ -40,3 +40,5 @@ fun getHash(
         contentScale = contentScale
     )
 }
+
+fun List<String>.comicsToString() = this.joinToString(separator = ", ")
