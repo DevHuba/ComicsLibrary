@@ -33,7 +33,9 @@ import com.example.comicslibrary.viewmodel.LibraryApiViewModel
 
 @Composable
 fun LibraryScreen(
-    navController: NavHostController, vm: LibraryApiViewModel, paddingValues: PaddingValues
+    navController: NavHostController,
+    vm: LibraryApiViewModel,
+    paddingValues: PaddingValues
 ) {
     val result by vm.result.collectAsState()
     val text = vm.queryText.collectAsState()
@@ -68,7 +70,9 @@ fun LibraryScreen(
                     CircularProgressIndicator()
                 }
                 is NetworkResult.Error -> {
-                    Text(text = "Error: ${result.message}")
+                    Text(
+                        text = "Error: ${result.message}"
+                    )
 
                 }
             }
@@ -93,9 +97,11 @@ fun ShowCharacterList(
             }
 
             items(characters) { character ->
-                val imageUrl = character.thumbnail?.path + "." + character.thumbnail?.extension
+                val imageUrl =
+                    character.thumbnail?.path + "." + character.thumbnail?.extension
                 val title = character.name
                 val description = character.description
+
                 val context = LocalContext.current
                 val id = character.id
 
@@ -114,7 +120,9 @@ fun ShowCharacterList(
                                 )
                             )
                         else Toast
-                            .makeText(context, "Character id is null", Toast.LENGTH_SHORT)
+                            .makeText(
+                                context, "Character id is null", Toast.LENGTH_SHORT
+                            )
                             .show()
                     }) {
                     Row(modifier = Modifier.fillMaxWidth()) {
@@ -127,14 +135,17 @@ fun ShowCharacterList(
                         Row(modifier = Modifier.padding(4.dp)) {
                             Text(
                                 text = title
-                                    ?: "", fontWeight = FontWeight.Bold, fontSize = 20.sp
+                                    ?: "", fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                                color = Color.Black
                             )
                         }
                     }
 
                     Text(
                         text = description
-                            ?: "", maxLines = 4, fontSize = 14.sp
+                            ?: "", maxLines = 4, fontSize = 14.sp,
+                        color = Color.Black
                     )
                 }
             }
