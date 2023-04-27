@@ -38,7 +38,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     CharactersScaffold(
-                        navController = navController
+                        navController
+                        = navController
                     )
 
                 }
