@@ -33,7 +33,7 @@ class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRe
             viewModelScope.launch {
                 if (it != null) {
                     repo.getCharacterFromRepo(it).collect {
-
+                        currentCharacter.value = it
                     }
                 }
             }
@@ -43,11 +43,7 @@ class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRe
 
     fun addCharacter(character: CharacterResult) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.addCharacterToRepo(
-                DbCharacter.fromCharacter(
-                    character
-                )
-            )
+            repo.addCharacterToRepo(DbCharacter.fromCharacter(character))
         }
     }
 
@@ -55,6 +51,5 @@ class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRe
         viewModelScope.launch(Dispatchers.IO) {
             repo.deleteCharacterFromRepo(character)
         }
-
     }
 }

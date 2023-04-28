@@ -22,6 +22,7 @@ class LibraryApiViewModel @Inject constructor(
     private val queryInput = Channel<String>(Channel.CONFLATED)
     val particularCharacter = repo.characterDetails
 
+
     init {
         retrieveCharacters()
     }
