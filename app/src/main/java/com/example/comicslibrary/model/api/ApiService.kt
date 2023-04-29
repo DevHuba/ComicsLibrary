@@ -12,8 +12,7 @@ object ApiService {
     private const val BASE_URL = "http://gateway.marvel.com/v1/public/"
 
     private fun getRetrofit(): Retrofit {
-        val timeStamp = System.currentTimeMillis()
-            .toString()
+        val timeStamp = System.currentTimeMillis().toString()
         val apiSecret = BuildConfig.MARVEL_SECRET
         val apiKey = BuildConfig.MARVEL_KEY
         val hash = getHash(timeStamp, apiSecret, apiKey)
@@ -26,16 +25,12 @@ object ApiService {
                 .addQueryParameter("hash", hash)
                 .build()
 
-            request = request.newBuilder()
-                .url(url)
-                .build()
+            request = request.newBuilder().url(url).build()
             chain.proceed(request)
 
         }
 
-        val client = OkHttpClient.Builder()
-            .addInterceptor(clientInterceptor)
-            .build()
+        val client = OkHttpClient.Builder().addInterceptor(clientInterceptor).build()
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -46,4 +41,5 @@ object ApiService {
     }
 
     val api: MarvelApi = getRetrofit().create(MarvelApi::class.java)
+
 }

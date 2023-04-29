@@ -33,9 +33,7 @@ import com.example.comicslibrary.viewmodel.LibraryApiViewModel
 
 @Composable
 fun LibraryScreen(
-    navController: NavHostController,
-    vm: LibraryApiViewModel,
-    paddingValues: PaddingValues
+    navController: NavHostController, vm: LibraryApiViewModel, paddingValues: PaddingValues
 ) {
     val result by vm.result.collectAsState()
     val text = vm.queryText.collectAsState()
@@ -70,9 +68,7 @@ fun LibraryScreen(
                     CircularProgressIndicator()
                 }
                 is NetworkResult.Error -> {
-                    Text(
-                        text = "Error: ${result.message}"
-                    )
+                    Text(text = "Error: ${result.message}")
 
                 }
             }
@@ -97,8 +93,7 @@ fun ShowCharacterList(
             }
 
             items(characters) { character ->
-                val imageUrl =
-                    character.thumbnail?.path + "." + character.thumbnail?.extension
+                val imageUrl = character.thumbnail?.path + "." + character.thumbnail?.extension
                 val title = character.name
                 val description = character.description
 

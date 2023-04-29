@@ -1,5 +1,6 @@
 package com.example.comicslibrary.model.api
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import com.example.comicslibrary.model.CharacterResult
 import com.example.comicslibrary.model.CharactersApiResponse
@@ -12,6 +13,7 @@ class MarvelApiRepo(private val api: MarvelApi) {
     val characters = MutableStateFlow<NetworkResult<CharactersApiResponse>>(NetworkResult.Initial())
     val characterDetails = mutableStateOf<CharacterResult?>(null)
 
+
     fun query(query: String) {
         characters.value = NetworkResult.Loading()
         api.getCharacters(query).enqueue(object : Callback<CharactersApiResponse> {
@@ -22,7 +24,6 @@ class MarvelApiRepo(private val api: MarvelApi) {
                     response.body()?.let {
                         characters.value = NetworkResult.Success(it)
                     }
-
                 } else {
                     characters.value = NetworkResult.Error(response.message())
                 }
@@ -35,6 +36,9 @@ class MarvelApiRepo(private val api: MarvelApi) {
                 t.printStackTrace()
             }
         })
+
+        Log.i("this", "api - $api")
+
     }
 
     fun getSingleCharacter(id: Int?) {
@@ -44,6 +48,7 @@ class MarvelApiRepo(private val api: MarvelApi) {
                     character.id == id
                 }
         }
+
 
     }
 }

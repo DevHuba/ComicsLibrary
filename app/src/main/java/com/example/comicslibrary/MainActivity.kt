@@ -23,6 +23,7 @@ import com.example.comicslibrary.view.CollectionScreen
 import com.example.comicslibrary.view.LibraryScreen
 import com.example.comicslibrary.viewmodel.CollectionDbViewModel
 import com.example.comicslibrary.viewmodel.LibraryApiViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 sealed class Destination(val route: String) {
     object Library : Destination("library")
@@ -32,6 +33,7 @@ sealed class Destination(val route: String) {
     }
 }
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val lvm by viewModels<LibraryApiViewModel>()
