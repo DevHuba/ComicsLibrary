@@ -28,5 +28,4 @@ interface NoteDao {
     @Query("DELETE FROM ${Constants.NOTE_TABLE} WHERE characterId = :characterId")
     fun deleteAllNotes(characterId: Int)
 
-
 }

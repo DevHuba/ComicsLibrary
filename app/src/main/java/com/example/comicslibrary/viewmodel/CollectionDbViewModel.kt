@@ -3,8 +3,10 @@ package com.example.comicslibrary.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comicslibrary.model.CharacterResult
+import com.example.comicslibrary.model.Note
 import com.example.comicslibrary.model.db.CollectionDbRepo
 import com.example.comicslibrary.model.db.DbCharacter
+import com.example.comicslibrary.model.db.DbNote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,11 +15,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRepo) : ViewModel() {
+
     val currentCharacter = MutableStateFlow<DbCharacter?>(null)
     val collection = MutableStateFlow<List<DbCharacter>>(listOf())
+    val notes = MutableStateFlow<List<DbNote>>(listOf())
+
 
     init {
         getCollection()
+        getNotes()
     }
 
     private fun getCollection() {
@@ -38,7 +44,6 @@ class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRe
                 }
             }
         }
-
     }
 
     fun addCharacter(character: CharacterResult) {
@@ -49,7 +54,29 @@ class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRe
 
     fun deleteCharacter(character: DbCharacter) {
         viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteAllNotes(character)
             repo.deleteCharacterFromRepo(character)
         }
     }
+
+    private fun getNotes() {
+        viewModelScope.launch() {
+            repo.getAllNotes().collect {
+                notes.value = it
+            }
+        }
+    }
+
+    fun addNote(note: Note): Unit {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.addNoteToRepo(DbNote.fromNote(note))
+        }
+    }
+
+    fun deleteNote(note: DbNote): Unit {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteNoteFromRepo(note)
+        }
+    }
+
 }
