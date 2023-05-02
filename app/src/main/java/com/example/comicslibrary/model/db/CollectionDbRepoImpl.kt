@@ -22,7 +22,8 @@ class CollectionDbRepoImpl(private val characterDao: CharacterDao, private val n
 
     override suspend fun getAllNotes(): Flow<List<DbNote>> = noteDao.getAllNotes()
 
-    override suspend fun getNotesFromRepo(characterId: Int): Flow<List<DbNote>> = noteDao.getNotes()
+    override suspend fun getNotesFromRepo(characterId: Int): Flow<List<DbNote>> =
+        noteDao.getNotes(characterId = characterId)
 
     override suspend fun addNoteToRepo(note: DbNote) = noteDao.addNote(note)
 
@@ -30,7 +31,7 @@ class CollectionDbRepoImpl(private val characterDao: CharacterDao, private val n
 
     override suspend fun deleteNoteFromRepo(note: DbNote) = noteDao.deleteNote(note)
 
-    override suspend fun deleteAllNotes(character: DbCharacter) =
-        noteDao.deleteAllNotes(character.id)
+    override suspend fun deleteCharacterAllNotes(character: DbCharacter) =
+        noteDao.deleteCharacterAllNotes(character.id)
 
 }

@@ -54,13 +54,13 @@ class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRe
 
     fun deleteCharacter(character: DbCharacter) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.deleteAllNotes(character)
+            repo.deleteCharacterAllNotes(character)
             repo.deleteCharacterFromRepo(character)
         }
     }
 
     private fun getNotes() {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             repo.getAllNotes().collect {
                 notes.value = it
             }

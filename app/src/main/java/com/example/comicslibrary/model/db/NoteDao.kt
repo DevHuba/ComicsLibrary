@@ -1,11 +1,6 @@
 package com.example.comicslibrary.model.db
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -14,7 +9,7 @@ interface NoteDao {
     fun getAllNotes(): Flow<List<DbNote>>
 
     @Query("SELECT * FROM ${Constants.NOTE_TABLE} WHERE characterId = :characterId ORDER BY id ASC")
-    fun getNotes(): Flow<List<DbNote>>
+    fun getNotes(characterId: Int): Flow<List<DbNote>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addNote(note: DbNote)
@@ -26,6 +21,6 @@ interface NoteDao {
     fun deleteNote(note: DbNote)
 
     @Query("DELETE FROM ${Constants.NOTE_TABLE} WHERE characterId = :characterId")
-    fun deleteAllNotes(characterId: Int)
+    fun deleteCharacterAllNotes(characterId: Int)
 
 }

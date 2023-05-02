@@ -24,6 +24,6 @@ interface CollectionDbRepo {
 
     suspend fun deleteNoteFromRepo(note: DbNote)
 
-    suspend fun deleteAllNotes(character: DbCharacter)
+    suspend fun deleteCharacterAllNotes(character: DbCharacter)
 
 }
