@@ -1,6 +1,5 @@
 package com.example.comicslibrary.view
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -150,8 +148,8 @@ import com.example.comicslibrary.viewmodel.CollectionDbViewModel
     val addNoteToElement = remember { mutableStateOf(-1) }
     val newNoteTitle = remember { mutableStateOf("") }
     val newNoteText = remember { mutableStateOf("") }
-    val buttonPressed = remember { mutableStateOf(false) }
 
+    var hiddenButton by remember { mutableStateOf(false) }
 
     if (addNoteToElement.value == characterId) {
         Column(
@@ -184,6 +182,9 @@ import com.example.comicslibrary.viewmodel.CollectionDbViewModel
                     newNoteTitle.value = ""
                     newNoteText.value = ""
                     addNoteToElement.value = -1
+
+                    hiddenButton = false
+
                 }) {
                     Icon(Icons.Default.Check, contentDescription = null)
                 }
@@ -192,33 +193,15 @@ import com.example.comicslibrary.viewmodel.CollectionDbViewModel
 
     }
 
-    ButtonWithHiddenState(characterId)
-
-}
-
-@Composable
-fun ButtonWithHiddenState(characterId: Int) {
-    var buttonPressed by remember { mutableStateOf(false) }
-    val addNoteToElement = remember { mutableStateOf(-1) }
-
-    val ctx = LocalContext.current
-
-
-    if (!buttonPressed) {
-        Button(onClick = {
-
-            Toast.makeText(ctx, "add click", Toast.LENGTH_SHORT)
-                .show()
-
-            buttonPressed = true
-
-            addNoteToElement.value = characterId
-
-        }) {
+    if (!hiddenButton) {
+        Button(
+            onClick = {
+                addNoteToElement.value = characterId
+                hiddenButton = true
+            }
+        ) {
             Icon(Icons.Default.Add, contentDescription = null)
         }
-    } else {
-        Toast.makeText(ctx, "hidden", Toast.LENGTH_SHORT)
-            .show()
     }
+
 }
