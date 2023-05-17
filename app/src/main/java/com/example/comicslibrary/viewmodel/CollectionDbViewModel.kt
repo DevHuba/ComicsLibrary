@@ -15,68 +15,71 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRepo) : ViewModel() {
-
-    val currentCharacter = MutableStateFlow<DbCharacter?>(null)
-    val collection = MutableStateFlow<List<DbCharacter>>(listOf())
-    val notes = MutableStateFlow<List<DbNote>>(listOf())
-
-
-    init {
-        getCollection()
-        getNotes()
-    }
-
-    private fun getCollection() {
-        viewModelScope.launch {
-            repo.getCharactersFromRepo().collect {
-                collection.value = it
-            }
-        }
-    }
-
-    fun setCurrentCharacterId(characterId: Int?) {
-        characterId.let {
-            viewModelScope.launch {
-                if (it != null) {
-                    repo.getCharacterFromRepo(it).collect {
-                        currentCharacter.value = it
-                    }
-                }
-            }
-        }
-    }
-
-    fun addCharacter(character: CharacterResult) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.addCharacterToRepo(DbCharacter.fromCharacter(character))
-        }
-    }
-
-    fun deleteCharacter(character: DbCharacter) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.deleteCharacterAllNotes(character)
-            repo.deleteCharacterFromRepo(character)
-        }
-    }
-
-    private fun getNotes() {
-        viewModelScope.launch {
-            repo.getAllNotes().collect {
-                notes.value = it
-            }
-        }
-    }
-
-    fun addNote(note: Note): Unit {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.addNoteToRepo(DbNote.fromNote(note))
-        }
-    }
-
-    fun deleteNote(note: DbNote): Unit {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.deleteNoteFromRepo(note)
-        }
-    }
-
+	
+	val currentCharacter = MutableStateFlow<DbCharacter?>(null)
+	val collection = MutableStateFlow<List<DbCharacter>>(listOf())
+	val notes = MutableStateFlow<List<DbNote>>(listOf())
+	
+	
+	init {
+		getCollection()
+		getNotes()
+	}
+	
+	private fun getCollection() {
+		viewModelScope.launch {
+			repo.getCharactersFromRepo()
+					.collect {
+						collection.value = it
+					}
+		}
+	}
+	
+	fun setCurrentCharacterId(characterId: Int?) {
+		characterId.let {
+			viewModelScope.launch {
+				if (it != null) {
+					repo.getCharacterFromRepo(it)
+							.collect {
+								currentCharacter.value = it
+							}
+				}
+			}
+		}
+	}
+	
+	fun addCharacter(character: CharacterResult) {
+		viewModelScope.launch(Dispatchers.IO) {
+			repo.addCharacterToRepo(DbCharacter.fromCharacter(character))
+		}
+	}
+	
+	fun deleteCharacter(character: DbCharacter) {
+		viewModelScope.launch(Dispatchers.IO) {
+			repo.deleteCharacterAllNotes(character)
+			repo.deleteCharacterFromRepo(character)
+		}
+	}
+	
+	private fun getNotes() {
+		viewModelScope.launch {
+			repo.getAllNotes()
+					.collect { it ->
+						notes.value = it
+					}
+		}
+	}
+	
+	fun addNote(note: Note): Unit {
+		viewModelScope.launch(Dispatchers.IO) {
+			repo.addNoteToRepo(DbNote.fromNote(note))
+		}
+	}
+	
+	fun deleteNote(note: DbNote): Unit {
+		viewModelScope.launch(Dispatchers.IO) {
+			repo.deleteNoteFromRepo(note)
+		}
+	}
+	
 }
